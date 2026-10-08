@@ -181,7 +181,7 @@
     <div class="sub">Cirurgias · Entrada de Nota Fiscal · Giro de Estoque · Consumo por Setor · Valor em Estoque</div>
     <div class="updated">
       Dados atualizados até
-      <b>31 / 07 / 2026</b>
+      <b>08 / 10 / 2026</b>
     </div>
   </div>
 
@@ -198,7 +198,7 @@
   <div class="grid2">
     <div class="panel">
       <h2>Evolução Mensal 2026</h2>
-      <div class="desc">Cirurgias (barras) e indicadores financeiros (linhas, R$) — janeiro a julho</div>
+      <div class="desc">Cirurgias (barras) e indicadores financeiros (linhas, R$) — janeiro a setembro</div>
       <canvas id="trendChart" height="230"></canvas>
     </div>
     <div class="panel">
@@ -211,7 +211,7 @@
 
   <div class="panel full" style="margin-bottom:16px;">
     <h2>Consumo Detalhado por Setor</h2>
-    <div class="desc">Todos os centros de custo, mês a mês (jan–jul/2026) — coluna do mês selecionado destacada. Clique em um cabeçalho de mês para ordenar por ele.</div>
+    <div class="desc">Todos os centros de custo, mês a mês (jan–set/2026) — coluna do mês selecionado destacada. Clique em um cabeçalho de mês para ordenar por ele.</div>
     <div style="overflow-x:auto;">
     <table id="detailTable">
       <thead>
@@ -224,6 +224,8 @@
           <th class="num sortcol" data-i="4">Mai</th>
           <th class="num sortcol" data-i="5">Jun</th>
           <th class="num sortcol" data-i="6">Jul</th>
+          <th class="num sortcol" data-i="7">Ago</th>
+          <th class="num sortcol" data-i="8">Set</th>
           <th class="num sortcol" data-i="total">Total do período</th>
           <th class="num">% do total</th>
         </tr>
@@ -241,7 +243,7 @@
   <div id="annualView" style="display:none;">
   <div class="panel full">
     <h2>Comparativo Anual</h2>
-    <div class="desc">2026 é parcial (jan–jul) — comparado ao mesmo recorte não é possível para todos os anos; totais anuais completos exibidos para referência de tendência</div>
+    <div class="desc">2026 é parcial (jan–set) — comparado ao mesmo recorte não é possível para todos os anos; totais anuais completos exibidos para referência de tendência</div>
     <div class="comp-chart-wrap">
       <canvas id="compChart"></canvas>
     </div>
@@ -250,19 +252,19 @@
         <tr><th>Ano</th><th class="num">Cirurgias</th><th class="num">Entrada NF (R$)</th><th class="num">Giro (R$)</th></tr>
       </thead>
       <tbody>
-        <tr><td>2026 (parcial, 7 meses)</td><td class="num">1.414</td><td class="num">851.167</td><td class="num">831.477</td></tr>
+        <tr><td>2026 (parcial, 9 meses)</td><td class="num">1.835</td><td class="num">1.141.715</td><td class="num">1.055.069</td></tr>
         <tr><td>2025</td><td class="num">2.786</td><td class="num">1.443.931</td><td class="num">1.516.070</td></tr>
-        <tr><td>2024</td><td class="num">2.287</td><td class="num">1.263.002</td><td class="num">1.063.466</td></tr>
+        <tr><td>2024</td><td class="num">2.287</td><td class="num">1.263.002</td><td class="num">1.062.974</td></tr>
         <tr><td>2023</td><td class="num">2.346</td><td class="num">1.279.365</td><td class="num">1.202.260</td></tr>
-        <tr class="total"><td>Projeção 2026 (ritmo × 12/7)</td><td class="num">2.424</td><td class="num">1.459.143</td><td class="num">1.425.388</td></tr>
+        <tr class="total"><td>Projeção 2026 (ritmo × 12/9)</td><td class="num">2.447</td><td class="num">1.522.287</td><td class="num">1.406.759</td></tr>
       </tbody>
     </table>
-    <div class="note">Projeção simples = ritmo observado em jan–jul × (12/7), apenas para referência direcional; não considera sazonalidade do 2º semestre (histórico mostra pico de cirurgias e compras entre ago–dez).</div>
+    <div class="note">Projeção simples = ritmo observado em jan–set × (12/9), apenas para referência direcional; não considera sazonalidade do 2º semestre (histórico mostra pico de cirurgias e compras entre ago–dez).</div>
   </div>
 
   <div class="panel full" style="margin-top:16px;">
     <h2>Cirurgias por Mês — Comparativo entre Anos</h2>
-    <div class="desc">Número de cirurgias mês a mês, 2023 a 2026 (2026 exibido até julho, parcial)</div>
+    <div class="desc">Número de cirurgias mês a mês, 2023 a 2026 (2026 exibido até setembro, parcial)</div>
     <div class="comp-chart-wrap">
       <canvas id="monthlyCompChart"></canvas>
     </div>
@@ -273,35 +275,35 @@
 </div>
 
 <script>
-const months = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho'];
-const monthsShort = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul'];
+const months = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro'];
+const monthsShort = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set'];
 
-const cirurgias = [217,148,231,207,208,147,256];
-const cirurgias2025 = [255,233,223,220,235,221,241];
+const cirurgias = [217,148,231,207,208,147,256,217,204];
+const cirurgias2025 = [255,233,223,220,235,221,241,243,224];
 
 const monthsFull = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
 const cirurgiasAno = {
   2023: [198,171,204,167,211,194,223,222,185,197,198,176],
   2024: [196,148,146,177,189,182,203,230,194,216,207,199],
   2025: [255,233,223,220,235,221,241,243,224,254,209,228],
-  2026: [217,148,231,207,208,147,256,null,null,null,null,null]
+  2026: [217,148,231,207,208,147,256,217,204,null,null,null]
 };
-const estoqIni  = [400433.5,357390.57,414251.53,342877.97,392540.12,385559.62,388429.43];
-const estoqFim  = [357390.57,414251.53,342877.97,392540.12,385559.62,388429.43,403011.05];
-const giro      = [131838.48,88003.93,132051.06,105882.35,103024.55,113891.78,156784.42];
-const nf        = [45594.48,161662.48,106734.36,138918.78,119103.58,114827.25,164325.74];
+const estoqIni  = [400433.5,357390.57,414251.53,342877.97,392540.12,385559.62,388429.43,403011.05,455386.42];
+const estoqFim  = [357390.57,414251.53,342877.97,392540.12,385559.62,388429.43,403011.05,455386.42,453086.05];
+const giro      = [131838.48,88003.93,132051.06,105882.35,103024.55,113891.78,156784.42,112274.26,111318.33];
+const nf        = [45594.48,161662.48,106734.36,138918.78,119103.58,114827.25,164325.74,171379.51,119168.89];
 
-const sectorData = {"ADMINISTRATIVO": [0, 0, 0, 0, 0, 4.88, 0], "CARDIOLOGIA": [0, 51.3, 217.06, 124.8, 244.53, 166, 123.56], "CARDIOLOGIA TERREO": [460.64, 926.53, 209.03, 365.1, 319.48, 272.08, 180.56], "CENTRAL DE EXAMES": [0, 277.21, 790.62, 200.54, 187.68, 88.53, 213.68], "CC": [103115.49, 64394.75, 100775.52, 98449.69, 76386.64, 83179.87, 124561.72], "CME": [12336.34, 7707.77, 11138.88, 9648.83, 11644.84, 15372.18, 15439.12], "CONSULTÓRIO": [24.16, 5.15, 302.64, 345.58, 19.94, 901.99, 606.02], "CURATIVO": [6704.36, 7177, 7948.96, 5886.41, 6862.82, 5333.99, 4560.61], "DIRETORIA": [0, 1037.3, 173.7, 225.58, 399.24, 178.79, 731.93], "FARMÁCIA": [18.68, 19.22, 33.92, 18.93, 29.21, 15.96, 1.15], "FISIOTERAPIA": [4.63, 0, 4.57, 26.55, 4.58, 0, 0], "INTERNAÇÃO": [6476.51, 4166.46, 7442.38, 5661.66, 4476.72, 5367.91, 7336.21], "LAVANDERIA": [63.83, 29, 60.39, 29.87, 39.99, 65.22, 55.42], "LIMPEZA": [191.78, 5.51, 231.55, 286.94, 236.21, 231.73, 127.6], "MANUTENÇÃO": [0, 34.51, 0, 0, 0, 0, 0], "MEDIC": [75.35, 98.28, 123.79, 88.14, 88.51, 65.15, 67.17], "NUTRIÇÃO": [18.03, 17.21, 55.22, 28.99, 22.85, 30.1, 60.18], "PEQ CIR + SALA PQ": [753.29, 649.76, 1023.64, 634.25, 1232.91, 1092.5, 1009.94], "POSTO DE ENFERMAGEM": [878.78, 541.08, 1017.23, 1220.67, 575.77, 1191.68, 1118.86], "PRONTO ATENDIMENTO": [0, 46.69, 0, 0, 0, 0, 0], "RECEPÇÃO CENTRAL": [122.92, 665.51, 240.44, 224.1, 101.28, 0, 170.89], "RECEPÇÃO ANEXO": [0, 0, 26.45, 0, 2.92, 0, 0], "UTI": [593.69, 153.69, 235.07, 224.22, 148.43, 333.22, 420]};
+const sectorData = {"CARDIOLOGIA": [0, 51.3, 217.06, 124.8, 244.53, 166, 123.56, 272.41, 292.52], "CARDIOLOGIA TERREO": [460.64, 926.53, 209.03, 365.1, 319.48, 272.08, 180.56, 379.59, 162.12], "CENTRAL DE EXAMES": [0, 277.21, 790.62, 200.54, 187.68, 88.53, 213.68, 312.61, 925.03], "CC": [103115.49, 64394.75, 100775.52, 98449.69, 76386.64, 83179.87, 124561.72, 86308.77, 87858.65], "CENTRAL DE MARCAÇÃO": [0, 0, 0, 0, 0, 0, 0, 9.78, 0], "CME": [12336.34, 7707.77, 11138.88, 9648.83, 11644.84, 15372.18, 15439.12, 12125.43, 12784.47], "CONSULTÓRIO": [24.16, 5.15, 302.64, 345.58, 19.94, 901.99, 606.02, 302.55, 767.93], "CURATIVO": [6704.36, 7177, 7948.96, 5886.41, 6862.82, 5333.99, 4560.61, 4037.69, 55.86], "DIRETORIA": [0, 1037.3, 173.7, 225.58, 399.24, 178.79, 731.93, 68.29, 137.98], "FARMÁCIA": [18.68, 19.22, 33.92, 18.93, 29.21, 15.96, 1.15, 30.19, 144.7], "FATURAMENTO": [0, 0, 0, 0, 0, 0, 0, 0, 5.87], "FISIOTERAPIA": [4.63, 0, 4.57, 26.55, 4.58, 0, 0, 4.13, 0], "INTERNAÇÃO": [6476.51, 4166.46, 7442.38, 5661.66, 4476.72, 5367.91, 7336.21, 4222.55, 4641.87], "LAVANDERIA": [63.83, 29, 60.39, 29.87, 39.99, 65.22, 55.42, 61.06, 31.69], "LIMPEZA": [191.78, 5.51, 231.55, 286.94, 236.21, 231.73, 127.6, 191.88, 203.47], "MANUTENÇÃO": [0, 34.51, 0, 0, 0, 0, 0, 0, 0], "MEDIC": [75.35, 98.28, 123.79, 88.14, 88.51, 65.15, 67.17, 0, 0], "NUTRIÇÃO": [18.03, 17.21, 55.22, 28.99, 22.85, 30.1, 60.18, 28.37, 96.99], "PEQ CIR + SALA PQ": [753.29, 649.76, 1023.64, 634.25, 1232.91, 1092.5, 1009.94, 2350.69, 1549.24], "POSTO DE ENFERMAGEM": [878.78, 541.08, 1017.23, 1220.67, 575.77, 1191.68, 1118.86, 1196.8, 798.81], "PRONTO ATENDIMENTO": [0, 46.69, 0, 0, 0, 0, 0, 0, 0], "RECEPÇÃO CENTRAL": [122.92, 665.51, 240.44, 224.1, 101.28, 0, 170.89, 32.03, 9.95], "RECEPÇÃO ANEXO": [0, 0, 26.45, 0, 2.92, 0, 0, 10.2, 0], "TESOURARIA": [0, 0, 0, 0, 0, 0, 0, 4.88, 0], "UTI": [593.69, 153.69, 235.07, 224.22, 148.43, 333.22, 420, 324.86, 851.18]};
 
 const execNotes = [
  // Janeiro
- ["<b>Giro de estoque em 34,8%</b> do estoque médio, o patamar mais saudável do período — reposição ainda enxuta (entrada de NF de R$ 45,6 mil, a mais baixa do período).",
+ ["<b>Giro de estoque em 34,8%</b> do estoque médio, entre os mais altos do início do ano — reposição ainda enxuta (entrada de NF de R$ 45,6 mil, a mais baixa do período).",
   "<b>CC concentra 78%</b> do consumo por setor do mês (R$ 103,1 mil), coerente com 217 cirurgias realizadas.",
   "Estoque encerrou o mês em queda de 10,7% frente à abertura — sinal de consumo superando reposição."],
  // Fevereiro
  ["Cirurgias recuaram <b>31,8%</b> (217→148), mas a entrada de NF saltou <b>+254,6%</b> (R$ 161,7 mil) — mês de reposição de estoque, não de aumento de atividade cirúrgica.",
   "Giro de estoque caiu para <b>22,8%</b> do estoque médio, o menor índice do período, refletindo o volume de cirurgias mais baixo.",
-  "Estoque final subiu 15,9%, encerrando fevereiro no maior saldo do período (R$ 414,3 mil)."],
+  "Estoque final subiu 15,9%, encerrando fevereiro no maior saldo até então (R$ 414,3 mil)."],
  // Março
  ["Recuperação forte: cirurgias <b>+56,1%</b> (148→231), volume expressivo, e giro de estoque volta a 34,9%, empatando com janeiro como pico de eficiência do 1º trimestre.",
   "Consumo por setor segue liderado pelo CC (R$ 100,8 mil), com CME em segundo lugar (R$ 11,1 mil).",
@@ -321,7 +323,15 @@ const execNotes = [
  // Julho
  ["Forte recuperação: cirurgias saltaram <b>+74,1%</b> (147→256), o maior volume do período, superando inclusive julho/2025 (+6,2% vs. 241).",
   "Giro de estoque atingiu <b>39,6%</b> do estoque médio, o maior índice do período, com entrada de NF subindo 43,1% — reposição acompanhando o aumento de atividade cirúrgica.",
-  "CC concentra R$ 124,6 mil no mês, o maior valor do período, coerente com o pico de cirurgias registrado."]
+  "CC concentra R$ 124,6 mil no mês, o maior valor do período, coerente com o pico de cirurgias registrado."],
+ // Agosto
+ ["Cirurgias recuaram <b>15,2%</b> (256→217) após o pico de julho e ficaram 10,7% abaixo de ago/2025 (243).",
+  "Giro de estoque caiu 28,4% (R$ 112,3 mil), para 26,2% do estoque médio, enquanto a entrada de NF subiu 4,3% e chegou a <b>R$ 171,4 mil, a maior do período</b>.",
+  "Estoque final subiu 13,0% e fechou em <b>R$ 455,4 mil, o maior saldo do período</b> — compras acima do consumo do mês."],
+ // Setembro
+ ["Cirurgias recuaram 6,0% (217→204), <b>8,9% abaixo</b> de set/2025 (224); é o terceiro mês seguido de queda anual (jul foi a exceção, +6,2%).",
+  "Entrada de NF recuou <b>30,5%</b> (R$ 119,2 mil), ajustando as compras após agosto; giro de estoque praticamente estável (-0,9%), em 24,5% do estoque médio, o segundo menor índice do período.",
+  "Estoque final estável em R$ 453,1 mil (-0,5%), patamar mais alto do ano com giro baixo — ponto a acompanhar nos próximos meses. CC responde por 78,9% do consumo (R$ 87,9 mil)."]
 ];
 
 const fmtR$ = v => v==null ? '—' : v.toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0});
@@ -468,7 +478,7 @@ function renderDetailTable(i){
     return detailSort.dir==='desc' ? vb-va : va-vb;
   });
 
-  const colIsMonth = i>=0 && i<=6;
+  const colIsMonth = i>=0 && i<=8;
 
   body.innerHTML = rows.map(r=>{
     const cells = r.arr.map((v,ci)=>{
@@ -479,7 +489,7 @@ function renderDetailTable(i){
     return `<tr><td class="name">${r.name}</td>${cells}<td class="num">${fmtR$(r.total)}</td><td class="num">${share.toFixed(1).replace('.',',')}%</td></tr>`;
   }).join('');
 
-  const monthTotals = [0,1,2,3,4,5,6].map(ci => rows.reduce((s,r)=>s+r.arr[ci],0));
+  const monthTotals = [0,1,2,3,4,5,6,7,8].map(ci => rows.reduce((s,r)=>s+r.arr[ci],0));
   const footCells = monthTotals.map((v,ci)=>{
     const hi = colIsMonth && ci===i ? ' hi' : '';
     return `<td class="num${hi}">${fmtR$(v)}</td>`;
@@ -568,7 +578,7 @@ function renderCompChart(){
     data:{
       labels:['2023','2024','2025','2026 (parcial)'],
       datasets:[
-        {label:'Cirurgias', data:[2346,2287,2786,1414], backgroundColor:['#8AB6D6','#FFD166','#00E6C3','#FF6F61'], borderRadius:4, yAxisID:'yc'},
+        {label:'Cirurgias', data:[2346,2287,2786,1835], backgroundColor:['#8AB6D6','#FFD166','#00E6C3','#FF6F61'], borderRadius:4, yAxisID:'yc'},
       ]
     },
     options:{
